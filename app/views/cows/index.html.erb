@@ -17,8 +17,8 @@
         <td><%= cow.age %></td>
         <td><%= cow.breed %></td>
         <td><%= link_to 'Show', cow %></td>
-        <td><%= link_to 'Edit', edit_cow_path(cow) %></td>
-        <td><%= link_to 'Destroy', cow, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Age', age_cow_path(cow), method: :post, remote: true %></td>
+        <td><%= button_to 'Destroy', cow, method: :delete, remote: true, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

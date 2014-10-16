@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :cows
+  resources :cows do
+    member do
+      post 'age'
+    end
+  end
   root 'cows#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
