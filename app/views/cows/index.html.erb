@@ -17,7 +17,7 @@
         <td><%= cow.age %></td>
         <td><%= cow.breed %></td>
         <td><%= link_to 'Show', cow %></td>
-        <td><%= link_to 'Age', age_cow_path(cow), method: :post, remote: true %></td>
+        <td><%= link_to 'Age', age_cow_path(cow), method: :post, remote: true, format: :json %></td>
         <td><%= button_to 'Destroy', cow, method: :delete, remote: true, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -26,4 +26,20 @@
 
 <br>
 
-<%= link_to 'New Cow', new_cow_path %>
+<h2>Add a new cow</h2>
+<%= render 'form' %>
+
+<div id="feedback_messages">
+</div>
+
+<script>
+$(document).ready(function(){
+  $(document).on('ajax:success', function(e, data){
+    //log target explicitly so we can see it easily
+    console.log(e.target);
+    console.log(e);
+    console.log(data);
+    
+  })
+});
+</script>
