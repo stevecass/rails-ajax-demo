@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+ages = (1..6).to_a
+names = ['Daisy', 'Flossy', 'Ermintrude', 'Cookie']
+breeds = ['Ayrshire', 'Brown Swiss', 'Jersey', 'Kerry', 'Holstein', 'Fresian']
+
+8.times do
+  Cow.create(name: names.sample, age: ages.sample, breed:breeds.sample)
+end
