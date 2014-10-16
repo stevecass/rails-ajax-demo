@@ -1,0 +1,8 @@
+<tr id="cow_<%= cow.id %>">
+  <td><%= cow.name %></td>
+  <td class="age"><%= cow.age %></td>
+  <td><%= cow.breed %></td>
+  <td><%= link_to 'Show', cow %></td>
+  <td><%= link_to 'Age', age_cow_path(cow), method: :post, remote: true, format: :json, id: "age_cow_#{cow.id}", class: 'age_cow' %></td>
+  <td><%= button_to 'Destroy', cow, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, id: "destroy_cow_#{cow.id}", class: 'destroy_cow' %></td>
+</tr>

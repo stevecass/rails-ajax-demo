@@ -24,17 +24,29 @@ class CowsController < ApplicationController
 
   # POST /cows
   # POST /cows.json
+
   def create
     @cow = Cow.new(cow_params)
-
-    respond_to do |format|
+    if request.xhr?
+      # This was from an ajax form
       if @cow.save
-        format.html { redirect_to @cow, notice: 'Cow was successfully created.' }
-        format.json { render :show, status: :created, location: @cow }
+        render partial: 'cow', locals:{cow: @cow}
       else
-        format.html { render :new }
-        format.json { render json: @cow.errors, status: :unprocessable_entity }
+        render text: 'failed', status: 500
       end
+
+    else
+
+      respond_to do |format|
+        if @cow.save
+          format.html { redirect_to @cow, notice: 'Cow was successfully created.' }
+          format.json { render :show, status: :created, location: @cow }
+        else
+          format.html { render :new }
+          format.json { render json: @cow.errors, status: :unprocessable_entity }
+        end
+      end
+
     end
   end
 
@@ -50,6 +62,13 @@ class CowsController < ApplicationController
         format.json { render json: @cow.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def age
+    @cow = Cow.find(params[:id])
+    @cow.age = 1 + @cow.age
+    @cow.save
+    render json: @cow
   end
 
   # DELETE /cows/1

@@ -1,6 +1,6 @@
 <h1>Listing cows</h1>
 
-<table>
+<table id="cow_list">
   <thead>
     <tr>
       <th>Name</th>
@@ -12,14 +12,7 @@
 
   <tbody>
     <% @cows.each do |cow| %>
-      <tr>
-        <td><%= cow.name %></td>
-        <td><%= cow.age %></td>
-        <td><%= cow.breed %></td>
-        <td><%= link_to 'Show', cow %></td>
-        <td><%= link_to 'Age', age_cow_path(cow), method: :post, remote: true, format: :json, id: "age_cow_#{cow.id}" %></td>
-        <td><%= button_to 'Destroy', cow, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, id: "destroy_cow_#{cow.id}" %></td>
-      </tr>
+    <%= render 'cow', cow: cow %>
     <% end %>
   </tbody>
 </table>
@@ -34,12 +27,35 @@
 
 <script>
 $(document).ready(function(){
-  $(document).on('ajax:success', function(e, data){
+  $(document).on('ajax:success', function(event, data){
     //log target explicitly so we can see it easily
-    console.log(e.target);
-    console.log(e);
+    console.log(event.target);
+    console.log(event.target.tagName);
+    console.log(event.target.className);
+    console.log(event);
     console.log(data);
-    
+    /* 
+    Here you could examine event.target to see which 
+    link / button / form was originator of the ajax call
+    Rails generates a form around button_to which 
+    complicates things slightly
+    */
+
+    if(event.target.className == 'age_cow') {
+      // find the cow and replace the content of the age field
+      // data is json in this case (because that's how we set up the age method in cows controller)
+      var newAge = data.age;
+      var cowId = data.id;
+      var selector = 'tr#cow_' + cowId + ' td.age';
+      $(selector).html(newAge);
+    }
+
+    if(event.target.className == 'new_cow') {
+      // cows#new returns an html snippet so we'll append it to the cows table
+      $('table#cow_list').append(data);
+    }
+
+
   })
 });
 </script>
