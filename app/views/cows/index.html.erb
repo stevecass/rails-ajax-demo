@@ -75,15 +75,13 @@ $(document).ready(function(){
 
       var dataCowId = data.deleted;
       if (dataCowId != formCowId) {
-        throw "The cow id in the form action and the cow Id in the return data don't match. Headscratcher."
+        throw "The cow id in the form action and the cow id in the return data don't match. Headscratcher."
       }
 
       var selector = 'tr#cow_' + dataCowId;
       $(selector).remove();
-
     }
-
-  })
+  });
 });
 
 </script>
