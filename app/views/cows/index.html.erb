@@ -27,6 +27,7 @@
 
 <script>
 $(document).ready(function(){
+  
   $(document).on('ajax:success', function(event, data){
     //log target explicitly so we can see it easily
     console.log(event.target);
@@ -53,6 +54,29 @@ $(document).ready(function(){
     if(event.target.className == 'new_cow') {
       // cows#new returns an html snippet so we'll append it to the cows table
       $('table#cow_list').append(data);
+    }
+
+    if(event.target.tagName == 'FORM' && event.target.className == 'button_to') {
+      // When we mark a button_to as remote: true, rails generates a form to surround our 
+      // button_to. The event target is the form not the button. Because it's generated, it's 
+      // a bit more challenging to grab it (our id and class are on the button not on the surrounding 
+      //  form that rails generated.
+
+      // BUT we could do a few things here.
+      // 1. We could have our controller data. Our destroy method returns json like {deleted: 17} 
+      // 2. We can check the action of the form that raised the event
+      // 3. We can use the event data to build a jquery selector to grab the form and look inside it at its inputs
+      
+      // We know the only button_to on this page is a destroy, so we'll just read the form action 
+      // to get the cow id then remove the row from the table
+
+      var url = event.target.action;
+      console.log(url);
+      var cowId = url.match(/\d+$/)[0];
+      console.log(cowId);
+      var selector = 'tr#cow_' + cowId;
+      $(selector).remove();
+
     }
 
 
