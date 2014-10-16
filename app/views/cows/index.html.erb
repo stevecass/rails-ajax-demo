@@ -27,7 +27,7 @@
 
 <script>
 $(document).ready(function(){
-  
+
   $(document).on('ajax:success', function(event, data){
     //log target explicitly so we can see it easily
     console.log(event.target);
@@ -63,23 +63,27 @@ $(document).ready(function(){
       //  form that rails generated.
 
       // BUT we could do a few things here.
-      // 1. We could have our controller data. Our destroy method returns json like {deleted: 17} 
+      // 1. We can check the data from the controller. Our destroy method returns json like {deleted: 17} 
       // 2. We can check the action of the form that raised the event
       // 3. We can use the event data to build a jquery selector to grab the form and look inside it at its inputs
       
-      // We know the only button_to on this page is a destroy, so we'll just read the form action 
+      // We'll do something convoluted here to check in both ways 1 and 2 just for demo purposes.
       // to get the cow id then remove the row from the table
 
-      var url = event.target.action;
-      console.log(url);
-      var cowId = url.match(/\d+$/)[0];
-      console.log(cowId);
+      var formAction = event.target.action;
+      var formCowId = formAction.match(/\d+$/)[0];
+
+      var dataCowId = data.deleted;
+      if (dataCowId != formCowId) {
+        throw "The cow id in the form action and the cow Id in the return data don't match. Headscratcher."
+      }
+
       var selector = 'tr#cow_' + cowId;
       $(selector).remove();
 
     }
 
-
   })
 });
+
 </script>
