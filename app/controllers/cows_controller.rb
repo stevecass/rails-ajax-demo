@@ -5,6 +5,7 @@ class CowsController < ApplicationController
   # GET /cows.json
   def index
     @cows = Cow.all
+    @cow = Cow.new
   end
 
   # GET /cows/1
